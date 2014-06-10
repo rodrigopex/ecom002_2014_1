@@ -1,1 +1,5 @@
-Hello world!
+#obra_inicio#
+#tombo:012345ABCD#
+#data:10/4/1995#
+#nexemplar:10#
+#obra_fim#
