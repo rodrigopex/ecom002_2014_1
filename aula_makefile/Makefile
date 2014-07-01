@@ -26,4 +26,4 @@ all: slib
 
 clean:
 	@echo Limpando pasta do projeto
-	rm libAB.a test
+	rm libAB.a test 

@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/rodrigopex/Teaching/p1/2014.1/code/aula_cmake/AB/a.c
+a.h
+/Users/rodrigopex/Teaching/p1/2014.1/code/aula_cmake/AB/a.h
+
+/Users/rodrigopex/Teaching/p1/2014.1/code/aula_cmake/AB/a.h
+stdio.h
+-
+
+/Users/rodrigopex/Teaching/p1/2014.1/code/aula_cmake/AB/b.c
+b.h
+/Users/rodrigopex/Teaching/p1/2014.1/code/aula_cmake/AB/b.h
+
+/Users/rodrigopex/Teaching/p1/2014.1/code/aula_cmake/AB/b.h
+stdio.h
+-
+

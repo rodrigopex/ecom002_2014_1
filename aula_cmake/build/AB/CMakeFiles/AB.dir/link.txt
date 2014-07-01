@@ -1,0 +1,1 @@
+/usr/bin/clang   -dynamiclib -Wl,-headerpad_max_install_names   -o libAB.dylib -install_name /Users/rodrigopex/Teaching/p1/2014.1/code/aula_cmake/build/AB/libAB.dylib CMakeFiles/AB.dir/a.c.o CMakeFiles/AB.dir/b.c.o 

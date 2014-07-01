@@ -1,0 +1,2 @@
+/Users/rodrigopex/Teaching/p1/2014.1/code/aula_cmake/build/AB/CMakeFiles/AB.dir
+/Users/rodrigopex/Teaching/p1/2014.1/code/aula_cmake/build/CMakeFiles/test.dir
