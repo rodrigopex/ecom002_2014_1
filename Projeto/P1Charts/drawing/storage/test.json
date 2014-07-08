@@ -1,0 +1,26 @@
+{
+    "fileName": "test01.png",
+    "name": "Sistemas operacionais",
+    "width": 300,
+    "height": 600,
+    "type": 2,
+    "color": [255, 255, 255, 255],
+    "content": [
+        {
+            "x": 30,
+            "y": 20
+        },
+        {
+            "x": 80,
+            "y": 200
+        },
+        {
+            "x": 100,
+            "y": 300
+        },
+        {
+            "x": 400,
+            "y": 400
+        }
+    ]
+}

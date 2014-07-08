@@ -1,78 +1,85 @@
 #include "drawing.h"
 
-Drawer * DrawerInit(int width, int height, char fileTypePDF, const char * filePath) {
-	Drawer * self = malloc(sizeof(Drawer));
-	if(fileTypePDF) {
-		self->surface = cairo_pdf_surface_create(filePath, width, height);
-	} else {
-		self->surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
-	}
-    self->context = cairo_create(self->surface);
-    cairo_set_antialias(self->context, CAIRO_ANTIALIAS_BEST);
-    return self;
+#define PI 3.1416
+
+void drawBackground(cairo_t *context, int width, int height) {
+    cairo_save(context);
+    cairo_rectangle (context, 0, 0, width, height);
+	cairo_set_source_rgba(context,
+						  255,
+						  255,
+						  255,
+						  255);
+	cairo_fill(context);
+    cairo_restore(context);
 }
 
-void DrawerDestroy(Drawer * self){
-	cairo_destroy(self->context);
-    cairo_surface_destroy(self->surface);
-    free(self);
+void drawXAxis(cairo_t *context, int width, int height) {
+    cairo_save(context);
+    cairo_rectangle (context, 20, height - 20, width - 40, 3);
+	cairo_set_source_rgba(context,
+						  0,
+						  0,
+						  0,
+						  255);
+	cairo_fill(context);
+    cairo_restore(context);
 }
 
-void DrawerDrawRectangle(Drawer * self, Rectangle rect) {
-	cairo_save(self->context);
-	cairo_set_line_width(self->context, rect.borderWidth);
-	cairo_rectangle (self->context, rect.x, rect.y, rect.width, rect.height);
-	cairo_set_source_rgba(self->context,
-						  rect.bg.r,
-						  rect.bg.g,
-						  rect.bg.b,
-						  rect.bg.a);
-	cairo_fill_preserve(self->context);
- 	cairo_set_source_rgba(self->context,
- 						  rect.border.r,
- 						  rect.border.g,
- 						  rect.border.b,
- 						  rect.border.a);
- 	cairo_stroke(self->context);
- 	cairo_restore(self->context);
+void drawYAxis(cairo_t *context, int width, int height) {
+    cairo_save(context);
+    cairo_rectangle (context, 20, height - 20, 3, - (height - 40));
+	cairo_set_source_rgba(context,
+						  0,
+						  0,
+						  0,
+						  255);
+	cairo_fill(context);
+    cairo_restore(context);
+}
+void drawDot(cairo_t *context, int x, int y) {
+    cairo_set_source_rgba(context,
+                              255,
+                              0,
+                              0,
+                              255);
+    cairo_arc (context,
+               x,
+               y,
+               3,
+               0,
+               2*PI);
+    cairo_fill(context);
 }
 
-void DrawerDrawArc(Drawer * self, Arc arc) {
-    cairo_save(self->context);
-    cairo_set_line_width(self->context, arc.borderWidth);
-    cairo_arc (self->context,
-               arc.x,
-               arc.y,
-               arc.radius,
-               arc.initAngle,
-               arc.endAngle);
-    cairo_line_to(self->context, arc.x, arc.y);
-    cairo_arc (self->context,
-               arc.x,
-               arc.y,
-               arc.radius,
-               arc.initAngle,
-               arc.initAngle);
-    cairo_line_to(self->context, arc.x, arc.y);
-    cairo_set_source_rgba(self->context,
-						  arc.bg.r,
-						  arc.bg.g,
-						  arc.bg.b,
-						  arc.bg.a);
-	cairo_fill_preserve(self->context);
- 	cairo_set_source_rgba(self->context,
- 						  arc.border.r,
- 						  arc.border.g,
- 						  arc.border.b,
- 						  arc.border.a);
- 	cairo_stroke(self->context);
-    cairo_restore(self->context);
-}
-
-void DrawerSave(Drawer * self, char fileTypePDF, const char * filePath) {
-	if(fileTypePDF) {
-		cairo_show_page(self->context);
-	} else {
-		cairo_surface_write_to_png(self->surface, filePath);
-	}
+void createChart(char *sourceJSON) {
+    Chart *chart = loadChart(sourceJSON);
+    
+    int width = chart->width, height = 600;
+    cairo_surface_t *surface = 
+        cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+    cairo_t *context = cairo_create(surface);
+    
+    drawBackground(context, width, height);
+    drawXAxis(context, width, height);
+    drawYAxis(context, width, height);
+    
+    cairo_move_to(context, 30, height - 20);
+    cairo_line_to(context, 30, 20);
+    cairo_line_to(context, 80, 200);
+    cairo_line_to(context, 100, 300);
+    cairo_line_to(context, 400, 400);
+    cairo_line_to(context, 400, height - 20);
+//    cairo_stroke(context);
+    cairo_fill(context);
+    
+    drawDot(context, 30, 20);
+    drawDot(context, 80, 200);
+    drawDot(context, 100, 300);
+    drawDot(context, 400, 400);
+    
+    
+    cairo_surface_write_to_png(surface, chart->fileName);
+    cairo_destroy(context);
+    cairo_surface_destroy(surface);
 }
